@@ -17,6 +17,7 @@ module hapticFrontend {
 			private $mdDialog: angular.material.IDialogService
 		) {
 			this.loadServices();
+			this.servicesSrv.downloadStatus();
 		}
 
 		loadServices(): angular.IPromise<void> {
@@ -25,10 +26,14 @@ module hapticFrontend {
 			});
 		}
 
-		displayInfo(e: MouseEvent, service: IService) {
+		startWindowsDownload(e: MouseEvent, service: IService) {
 			let o = this.getDefaultServiceDlgOpt(e);
 			o.locals = { service: service };
 			return this.$mdDialog.show(o);
+		}
+
+		toggle(service: IService) {
+			return this.servicesSrv.start(service);
 		}
 
 		private getDefaultServiceDlgOpt(e: MouseEvent): angular.material.IDialogOptions {
