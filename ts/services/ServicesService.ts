@@ -4,9 +4,10 @@ module hapticFrontend {
 	"use strict";
 
 	export interface IService {
-		Id: number;
-		Name: string;
+		Id: string;
 		Ico: string;
+		Name: string;
+		VM: string;
 	}
 
 	export class ServicesService {
@@ -23,22 +24,28 @@ module hapticFrontend {
 		}
 
 		getAll(): angular.IPromise<IService[]> {
-			return this.rpc.call({ method: "ServiceServices.GetList", id: 1 })
+			return this.rpc.call({ method: "ServiceIaas.GetList", id: 1 })
 				.then((res: IRpcResponse): IService[] => {
 					let services: IService[] = [];
 
-					if (this.isError(res)) {
-						return [{ // fake data
-							Id: 1,
-							Name: "Proxy",
-							Ico: "public"
+					if (this.isError(res) || res.result.VmListJsonArray === undefined) {
+						return [{ // fake Data
+							"Id": "2",
+							"Ico": "windows",
+							"Name": "Remote Desktop Application",
+							"VM": "winad"
+						}, {
+							"Id": "1",
+							"Ico": "view_module",
+							"Name": "Haptic",
+							"VM": "proxy"
 						}];
+					} else {
+						for (let srv of JSON.parse(res.result.VmListJsonArray)) {
+							services.push(srv);
+						}
+						return services;
 					}
-
-					for (let srv of res.result.ServicesJsonArray) {
-						services.push(JSON.parse(srv));
-					}
-					return services;
 				});
 		}
 
