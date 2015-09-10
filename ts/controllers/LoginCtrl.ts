@@ -9,29 +9,43 @@ module hapticFrontend {
 
 		static $inject = [
 			"$location",
-			"AuthenticationService"
+			"AuthenticationService",
+			"$mdToast"
 		];
 
 		constructor(
 			private $location: angular.ILocationService,
-			private authSrv: AuthenticationService
+			private authSrv: AuthenticationService,
+			private $mdToast: angular.material.IToastService
 		) {
 			this.credentials = {
-				"mail": "",
+				"email": "",
 				"password": ""
 			};
 		}
 
 		signIn(e: MouseEvent) {
-			// let isLoggedIn = this.authSrv.authenticate(this.credentials);
-			let isLoggedIn = this.authSrv.tmpAuth(this.credentials);
-			if (isLoggedIn === true) {
-				this.$location.path("/");
-				window.location.href = "/";
-			} else {
-				this.$location.path("/login.html");
-				window.location.href = "/login.html";
-			}
+			this.authSrv.authenticate(this.credentials).then(
+					(response: any) => {
+						if (typeof response.data === "string") {
+							if (response.data.indexOf instanceof Function &&
+									response.data.indexOf("<body layout=\"row\" ng-controller=\"MainCtrl as mainCtrl\">") !== -1) {
+								this.$location.path("/admin.html");
+								window.location.href = "/admin.html";
+								return;
+							}
+						}
+						this.$location.path("/");
+						window.location.href = "/";
+					},
+					(error: any) => {
+						this.$mdToast.show(
+								this.$mdToast.simple()
+								.content("Authentication failed: Email or Password incorrect")
+								.position("top right")
+								);
+					}
+			);
 		}
 	}
 
