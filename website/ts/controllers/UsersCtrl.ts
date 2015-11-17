@@ -84,7 +84,7 @@ module hapticFrontend {
 			let o = this.$mdDialog.confirm()
 				.parent(angular.element(document.body))
 				.title("Delete user")
-				.content("Are you sure you want to delete this user?")
+				.content("Are you sure you want to delete \"" + user.Email + "\"?")
 				.ok("Yes")
 				.cancel("No")
 				.targetEvent(e);
