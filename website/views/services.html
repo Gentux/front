@@ -37,8 +37,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</div>
 		</md-list-item>
 
-		<md-list-item class="md-3-line" ng-click="servicesCtrl.startWindowsDownload($event)"
-			ng-if="servicesCtrl.servicesSrv.windowsReady === false">
+		<md-list-item ng-if="servicesCtrl.servicesSrv.windowsReady === false" class="md-3-line"
+				ng-click="servicesCtrl.startWindowsDownload($event, servicesCtrl.servicesSrv.windowsService)">
 			<ng-md-icon icon="windows"></ng-md-icon>
 			<div class="md-list-item-text" layout="column">
 				<h3>Windows</h3>

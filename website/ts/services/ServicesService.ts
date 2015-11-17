@@ -45,6 +45,7 @@ module hapticFrontend {
 
 		downloadStarted = false;
 		windowsReady = false;
+		windowsService: IService = null;
 
 		constructor(
 			private rpc: RpcService,
@@ -66,6 +67,7 @@ module hapticFrontend {
 							if (srv.Ico === "windows") {
 								this.downloadStarted = false;
 								this.windowsReady = true;
+								this.windowsService = srv;
 							}
 							services.push(srv);
 						}
