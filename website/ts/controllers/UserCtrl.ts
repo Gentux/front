@@ -52,22 +52,23 @@ module hapticFrontend {
 		}
 
 		save(): void {
-			let success;
-
-			if (this.userForm.$invalid || ! this.checkPassword(this.user)) {
+			if (this.userForm.$invalid || !this.checkPassword(this.user)) {
 				return;
 			}
 
+			let prm: angular.IPromise<boolean>;
 			if (this.isCreation) {
-				success = this.userSrv.save(this.user);
+				prm = this.userSrv.save(this.user);
 			} else {
-				success = this.userSrv.updatePassword(this.user);
+				prm = this.userSrv.updatePassword(this.user);
 			}
-			if (success) {
-				this.$mdDialog.hide(this.user);
-			} else {
-				this.$mdDialog.cancel();
-			}
+			prm.then((ok: boolean) => {
+				if (ok) {
+					this.$mdDialog.hide(this.user);
+				} else {
+					this.$mdDialog.cancel();
+				}
+			});
 		}
 
 		checkPassword(user: IUser): boolean {
@@ -80,6 +81,11 @@ module hapticFrontend {
 			// Allowed Characters set:
 			//   * Any alphanumeric character 0 to 9 OR A to Z or a to z
 			//   * Punctuation symbols [. , " ' ? ! ; : # $ % & ( ) * + - / < > = @ [ ] \ ^ _ { } |]
+
+			if (user === undefined || user === null || typeof user.Password !== "string") {
+				return;
+			}
+
 			if (user.Password.length < 7 || user.Password.length >= 65 ) {
 				this.userFormErrorMessage = "Password have to contain at least 7 characters and less than 65.";
 				return false;

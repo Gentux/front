@@ -30,8 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</md-button>
 		</div>
 	</md-toolbar>
-	<md-dialog-content>
-		<form name="userCtrl.userForm">
+	<form name="userCtrl.userForm">
+		<md-dialog-content>
 			<div layout="column">
 				<md-input-container flex ng-if="userCtrl.isCreation">
 					<label>First name</label>
@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</div>
 		</md-dialog-content>
 		<div class="md-actions" layout="row">
-			<md-button ng-click="userCtrl.cancel()">
+			<md-button type="button" ng-click="userCtrl.cancel()">
 				Cancel
 			</md-button>
 			<md-button type="submit" ng-click="userCtrl.save()">
