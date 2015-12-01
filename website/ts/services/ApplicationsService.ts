@@ -38,11 +38,13 @@ module hapticFrontend {
 
 		static $inject = [
 			"RpcService",
-			"$mdToast"
+			"$mdToast",
+			"$cookies"
 		];
 		constructor(
 			private rpc: RpcService,
-			private $mdToast: angular.material.IToastService
+			private $mdToast: angular.material.IToastService,
+			private $cookies: angular.cookies.ICookiesService
 		) {
 
 		}
@@ -106,6 +108,13 @@ module hapticFrontend {
 				this.isError(res);
 			});
 		}
+		
+		clearCookies() {
+			let cookies: any[] = this.$cookies.getAll();
+			for (let c in cookies) {
+				this.$cookies.remove(c);
+			}
+		}
 
 		private isError(res: IRpcResponse): boolean {
 			if (res.error == null) {
@@ -119,13 +128,14 @@ module hapticFrontend {
 			return true;
 		}
 
-		private cleanAppName(appName) {
+		private cleanAppName(appName: string) {
 			if (appName) {
 				return appName.replace(/^\|\|/, "");
 			} else {
 				return "Desktop";
 			}
 		}
+		
 	}
 
 	app.service("ApplicationsService", ApplicationsService);
