@@ -106,6 +106,10 @@ module hapticFrontend {
 			let applicationToken = btoa(application.ConnectionName + "\0c\0noauthlogged");
 			window.open("/guacamole/#/client/" + applicationToken, "_blank");
 		}
+
+		percentDone(file: any) {
+			return Math.round(file._prevUploadedSize / file.size * 100).toString()
+		}
 	}
 
 	app.controller("ApplicationsCtrl", ApplicationsCtrl);
