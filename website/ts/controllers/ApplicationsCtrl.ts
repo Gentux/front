@@ -108,7 +108,7 @@ module hapticFrontend {
 		}
 
 		percentDone(file: any) {
-			return Math.round(file._prevUploadedSize / file.size * 100).toString()
+			return Math.round(file._prevUploadedSize / file.size * 100).toString();
 		}
 	}
 
