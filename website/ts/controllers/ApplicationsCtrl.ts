@@ -105,8 +105,10 @@ module hapticFrontend {
 			this.applicationsSrv.clearCookies();
 			this.$http.post("/clearCookies", null)
 				.then((): void => {
-					let applicationToken = btoa(connectionName + "\0c\0noauthlogged");
-					window.open("/guacamole/#/client/" + applicationToken, "_blank");
+					setTimeout(function () {
+						let applicationToken = btoa(connectionName + "\0c\0noauthlogged");
+						window.open("/guacamole/#/client/" + applicationToken, "_blank");
+					}, 1000);
 				});
 		}
 
