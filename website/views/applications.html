@@ -47,13 +47,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</md-card-content>
 
 	<div class="md-actions" layout="row" layout-align="end center">
-		<md-button ng-href="/guacamole/#/client/aGFwdGljRGVza3RvcABjAG5vYXV0aGxvZ2dlZA=="noauth
-				target="_blank" class="md-raised">
+		<md-button ng-click="applicationsCtrl.openApplication($event, 'hapticDesktop')" class="md-raised">
 			<md-tooltip>Open Windows desktop to install your application</md-tooltip>
 			<ng-md-icon icon="windows"></ng-md-icon> Desktop
 		</md-button>
-		<md-button ng-href="/guacamole/#/client/aGFwdGljUG93ZXJzaGVsbABjAG5vYXV0aGxvZ2dlZA=="
-				target="_blank" class="md-raised md-primary">
+		<md-button ng-click="applicationsCtrl.openApplication($event, 'hapticPowershell')" class="md-raised md-primary">
 			<md-tooltip>Publish an application</md-tooltip>
 			<ng-md-icon icon="cloud_done"></ng-md-icon> Publish
 		</md-button>

@@ -32,11 +32,13 @@ module hapticFrontend {
 
 		static $inject = [
 			"ApplicationsService",
+			"$http",
 			"$mdDialog"
 		];
 
 		constructor(
 			private applicationsSrv: ApplicationsService,
+			private $http: angular.IHttpService,
 			private $mdDialog: angular.material.IDialogService
 		) {
 			this.gridOptions = {
@@ -51,7 +53,7 @@ module hapticFrontend {
 						displayName: "",
 						enableColumnMenu: false,
 						cellTemplate: "\
-							<md-button ng-click='grid.appScope.applicationsCtrl.openApplication($event, row.entity)'>\
+							<md-button ng-click='grid.appScope.applicationsCtrl.openApplication($event, row.entity.ConnectionName)'>\
 								<ng-md-icon icon='pageview' size='14'></ng-md-icon> Open\
 							</md-button>\
 							<md-button ng-click='grid.appScope.applicationsCtrl.startUnpublishApplication($event, row.entity)'>\
@@ -99,10 +101,13 @@ module hapticFrontend {
 			}
 		}
 
-		openApplication(e: MouseEvent, application: IApplication) {
+		openApplication(e: MouseEvent, connectionName: string) {
 			this.applicationsSrv.clearCookies();
-			let applicationToken = btoa(application.ConnectionName + "\0c\0noauthlogged");
-			window.open("/guacamole/#/client/" + applicationToken, "_blank");
+			this.$http.post("/clearCookies", null)
+				.then((): void => {
+					let applicationToken = btoa(connectionName + "\0c\0noauthlogged");
+					window.open("/guacamole/#/client/" + applicationToken, "_blank");
+				});
 		}
 
 		percentDone(file: any) {
