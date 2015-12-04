@@ -58,7 +58,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</div>
 </md-card>
 
-<div>
+<div ng-if="!applicationsCtrl.isWinAvailable">
+	<md-card>
+		<md-card-content>
+			<p><strong>Windows</strong> machine seems unavailable at this time. You
+			can't access windows desktop or publish application without it.</p>
+		</md-card-content>
+	</md-card>
+</div>
+
+<div ng-if="applicationsCtrl.isWinAvailable">
 	<md-card>
 		<md-card-content>
 			<p>

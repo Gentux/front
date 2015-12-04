@@ -31,11 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				</div>
 				<md-button class="md-icon-button" aria-label="Change password"
 						ng-click="usersCtrl.startEditUser($event, user)"
+						ng-disabled="!applicationsCtrl.isWinAvailable"
 						ng-show="user.Profile !== 'admin'">
 					<ng-md-icon icon="edit"></ng-md-icon>
 				</md-button>
 				<md-button class="md-icon-button md-warn" aria-label="Delete this user"
 						ng-click="usersCtrl.startDeleteUser($event, user)"
+						ng-disabled="!applicationsCtrl.isWinAvailable"
 						ng-show="user.Profile !== 'admin'">
 					<ng-md-icon icon="delete"></ng-md-icon>
 				</md-button>
@@ -46,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <div class="align-right">
 	<md-button ng-click="usersCtrl.startAddUser($event)" class="md-primary"
-			aria-label="Add a new user">
+			aria-label="Add a new user" ng-disabled="!usersCtrl.isWinAvailable">
 		<md-tooltip>Add a new user user</md-tooltip>
 		<ng-md-icon icon="person_add"></md-icon>
 	</md-button>
@@ -55,6 +57,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<md-tooltip>Information about password policies</md-tooltip>
 		<ng-md-icon icon="help"></md-icon>
 	</md-button>
+</div>
+
+<div ng-if="!usersCtrl.isWinAvailable">
+	<md-card>
+		<md-card-content>
+			<p><strong>Windows</strong> machine seems unavailable at this time. You
+			can't create user without it.</p>
+		</md-card-content>
+	</md-card>
 </div>
 
 <div ng-if="usersCtrl.displayHelp === true">

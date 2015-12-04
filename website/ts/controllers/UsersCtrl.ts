@@ -29,15 +29,25 @@ module hapticFrontend {
 
 		users: any;
 		displayHelp: boolean;
+		isWinAvailable = false;
 
 		static $inject = [
 			"UserService",
+			"IaasFactory",
+			"$scope",
 			"$mdDialog"
 		];
 		constructor(
 			private userSrv: UserService,
+			private iaasFct: IaasFactory,
+			$scope: angular.IScope,
 			private $mdDialog: angular.material.IDialogService
 		) {
+
+			$scope.$watch("usersCtrl.iaasFct.services", (newValue: IService[]) => {
+				this.isWinAvailable = _.some(newValue, (s: IService) => s.Ico === "windows" && s.Status === "running");
+			});
+
 			this.loadUsers();
 			this.displayHelp = false;
 		}
