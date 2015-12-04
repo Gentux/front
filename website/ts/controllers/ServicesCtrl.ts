@@ -27,19 +27,18 @@ module hapticFrontend {
 
 	class ServicesCtrl {
 
-		services: any;
 		colors: any;
 
 		static $inject = [
 			"ServicesService",
-			"$mdDialog",
-			"$interval"
+			"IaasFactory",
+			"$mdDialog"
 		];
 
 		constructor(
 			private servicesSrv: ServicesService,
-			private $mdDialog: angular.material.IDialogService,
-			$interval: ng.IIntervalService
+			private iaasFct: IaasFactory,
+			private $mdDialog: angular.material.IDialogService
 		) {
 			this.colors = {
 				downloading: "#4183D7",
@@ -47,18 +46,13 @@ module hapticFrontend {
 				booting: "#EB9532",
 				running: "#26A65B"
 			};
-
-			this.loadServices();
-			$interval(
-				this.loadServices.bind(this),
-				10 * 1000
-				);
 		}
 
-		loadServices(): angular.IPromise<void> {
-			return this.servicesSrv.getAll().then((services: IService[]) => {
-				this.services = services;
-			});
+		get services(): IService[] {
+			return this.iaasFct.services; 
+		}
+		set services(value: IService[]) {
+			this.iaasFct.services = value;
 		}
 
 		startWindowsDownload(e: MouseEvent, service: IService) {

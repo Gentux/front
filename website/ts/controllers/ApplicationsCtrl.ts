@@ -29,17 +29,22 @@ module hapticFrontend {
 	class ApplicationsCtrl {
 
 		gridOptions: any;
+		isWinAvailable = false;
 
 		static $inject = [
 			"ApplicationsService",
-			"$http",
-			"$mdDialog"
+			"IaasFactory",
+			"$mdDialog",
+			"$scope",
+			"$http"
 		];
 
 		constructor(
 			private applicationsSrv: ApplicationsService,
-			private $http: angular.IHttpService,
-			private $mdDialog: angular.material.IDialogService
+			private iaasFct: IaasFactory,
+			private $mdDialog: angular.material.IDialogService,
+			$scope: angular.IScope,
+			private $http: angular.IHttpService
 		) {
 			this.gridOptions = {
 				data: [],
@@ -62,6 +67,10 @@ module hapticFrontend {
 					}
 				]	
 			};
+
+			$scope.$watch("applicationsCtrl.iaasFct.services", (newValue: IService[]) => {
+				this.isWinAvailable = _.some(newValue, (s: IService) => s.Ico === "windows" && s.Status === "running");
+			});
 
 			this.loadApplications();
 		}
